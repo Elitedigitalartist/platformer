@@ -1,3 +1,4 @@
+//David Sagoua May 19,2025
 package gamelogic.level;
 
 import java.awt.Graphics;
@@ -197,6 +198,53 @@ public class Level {
 	//Your code goes here! 
 	//Please make sure you read the rubric/directions carefully and implement the solution recursively!
 	private void water(int col, int row, Map map, int fullness) {
+		//make water (You’ll need modify this to make different kinds of water such as half water and quarter water)
+		Water w = new Water (col, row, tileSize, tileset.getImage("Full_water"), this, fullness);
+		map.addTile(col, row, w);
+
+        //check if we can go down
+		if (row + 1 < map.getTiles()[col].length  && !map.getTiles()[col][row + 1].isSolid() && !(map.getTiles()[col][row + 1] instanceof Water))
+		{
+			water(col, row + 1, map, 0);
+			map.addTile(col, row + 1, new Water(col, row + 1, tileSize, tileset.getImage("Falling_water"), this, fullness));
+		}
+
+        //if we can’t go down go left and right.
+		//right
+		else{
+			if(col+1 < map.getTiles().length && !(map.getTiles()[col+1][row] instanceof Water) && !(map.getTiles()[col+1][row].isSolid())) {
+				
+				if(row+1< map.getTiles()[col].length && !(map.getTiles()[col+1][row+1].isSolid())) {
+					if ((map.getTiles()[col][row+1].isSolid()) && !map.getTiles()[col + 1][row+1].isSolid())
+					{
+						//water(col + 1, row, map, 2);
+						map.addTile(col, row, new Water(col, row, tileSize, tileset.getImage("Half_water"), this, fullness));
+					}
+					water(col + 1, row, map, 1);
+					map.addTile(col + 1, row, new Water(col + 1, row, tileSize, tileset.getImage("Quarter_water"), this, fullness));
+					
+					
+				}
+				if(row+1< map.getTiles()[col].length && !(map.getTiles()[col-1][row+1].isSolid())) {
+					if ((map.getTiles()[col][row-1].isSolid()))
+					{
+						//water(col + 1, row, map, 2);
+						map.addTile(col, row, new Water(col, row, tileSize, tileset.getImage("Half_water"), this, fullness));
+					}
+					water(col - 1, row, map, 1);
+					map.addTile(col-1, row, new Water(col - 1, row, tileSize, tileset.getImage("Quarter_water"), this, fullness));
+				}
+				if (!(map.getTiles()[col+1][row] instanceof Water) && !(map.getTiles()[col+1][row].isSolid())){
+					water(col+1, row, map, 3);
+				}
+				
+				
+			}
+			//left
+			if(col-1 >= 0 && !(map.getTiles()[col-1][row] instanceof Water) && !(map.getTiles()[col-1][row].isSolid())) {
+				water(col-1, row, map, 3);
+			}
+		}
 		
 	}
 
