@@ -242,7 +242,7 @@ public class Level {
 		else if (map.getTiles()[col][row + 1].isSolid())
 		{
 			//right
-			if (col + 1 < map.getTiles().length -1 && !(map.getTiles()[col + 1][row] instanceof Water)) 
+			if (col + 1 < map.getTiles().length -1 && !(map.getTiles()[col + 1][row].isSolid()) && !(map.getTiles()[col + 1][row] instanceof Water)) 
 			{
 				water(col + 1, row, map, 3);
 				map.addTile(col, row, new Water(col, row, tileSize, tileset.getImage("Full_water"), this, fullness));
@@ -271,7 +271,7 @@ public class Level {
 					map.addTile(col - 1, row, new Water(col - 1, row, tileSize, tileset.getImage("Half_water"), this, 2));
 					waters.add(new Water(col - 1, row, tileSize, tileset.getImage("Half_water"), this, 2));
 				}
-				if (row - 2 > 1 && (map.getTiles()[col - 1][row + 1].isSolid()) && !(map.getTiles()[col - 2][row + 1].isSolid()))
+				if (row - 2 > 0 && (map.getTiles()[col - 1][row + 1].isSolid()) && !(map.getTiles()[col - 2][row + 1].isSolid()))
 				{
 					map.addTile(col - 1, row, new Water(col - 1, row, tileSize, tileset.getImage("Half_water"), this, 2));
 					waters.add(new Water(col - 1, row, tileSize, tileset.getImage("Half_water"), this, 2));
@@ -282,6 +282,8 @@ public class Level {
 		}
 	}
 	//Adds gas tiles until the requisite number of squares are filled or there is no more room 
+	//Pre condition: gas flowers have been touched
+	//Post-condition: adds gas tiles to the map making it look like the flower turned to gas
 	private void addGas(int col, int row, Map map, int numSquaresToFill, ArrayList<Gas> placedThisRound) 
 	{
 		Gas g = new Gas (col, row, tileSize, tileset.getImage("GasOne"), this, 0);
@@ -290,56 +292,57 @@ public class Level {
 		numSquaresToFill--;
 		int index = 0;
 		while (numSquaresToFill > 0 && placedThisRound.size() > 0 && placedThisRound.size() > index){
-			//x-y
+			//y--
 			if (placedThisRound.get(index).getRow() > 0 && !(map.getTiles()[placedThisRound.get(index).getCol()][placedThisRound.get(index).getRow() - 1].isSolid()) && !(map.getTiles()[placedThisRound.get(index).getCol()][placedThisRound.get(index).getRow() - 1] instanceof Gas))
 			{
 				g = new Gas(placedThisRound.get(index).getCol(), placedThisRound.get(index).getRow() - 1, tileSize, tileset.getImage("GasOne"), this, 0);
 				map.addTile(placedThisRound.get(index).getCol(), placedThisRound.get(index).getRow() - 1, g);
 				placedThisRound.add(g);
 				numSquaresToFill--;
-			}//check
+			}
+			//x++ && y--
 			if (placedThisRound.get(index).getRow() > 0 && placedThisRound.get(index).getCol() < map.getWidth() && !(map.getTiles()[placedThisRound.get(index).getCol() + 1][placedThisRound.get(index).getRow() - 1].isSolid()) && !(map.getTiles()[placedThisRound.get(index).getCol() + 1][placedThisRound.get(index).getRow() - 1] instanceof Gas))
 			{
 				g = new Gas(placedThisRound.get(index).getCol() + 1, placedThisRound.get(index).getRow() - 1, tileSize, tileset.getImage("GasOne"), this, 0);
 				map.addTile(placedThisRound.get(index).getCol() + 1, placedThisRound.get(index).getRow() - 1, g);
 				placedThisRound.add(g);
 				numSquaresToFill--;
-			}//-x-y
+			}//x-- && y--
 			if (placedThisRound.get(index).getRow() > 0 && placedThisRound.get(index).getCol() > 0 && !(map.getTiles()[placedThisRound.get(index).getCol() - 1][placedThisRound.get(index).getRow() - 1].isSolid()) && !(map.getTiles()[placedThisRound.get(index).getCol() - 1][placedThisRound.get(index).getRow() - 1] instanceof Gas))
 			{
 				g = new Gas(placedThisRound.get(index).getCol() - 1, placedThisRound.get(index).getRow() - 1, tileSize, tileset.getImage("GasOne"), this, 0);
 				map.addTile(placedThisRound.get(index).getCol() - 1, placedThisRound.get(index).getRow() - 1, g);
 				placedThisRound.add(g);
 				numSquaresToFill--;
-			}//-xy
+			}//x--
 			if (placedThisRound.get(index).getCol() > 0 && !(map.getTiles()[placedThisRound.get(index).getCol() - 1][placedThisRound.get(index).getRow()].isSolid()) && !(map.getTiles()[placedThisRound.get(index).getCol() - 1][placedThisRound.get(index).getRow() - 1] instanceof Gas))
 			{
 				g = new Gas(placedThisRound.get(index).getCol() - 1, placedThisRound.get(index).getRow(), tileSize, tileset.getImage("GasOne"), this, 0);
 				map.addTile(placedThisRound.get(index).getCol() - 1, placedThisRound.get(index).getRow(), g);
 				placedThisRound.add(g);
 				numSquaresToFill--;
-			}//+xy
+			}//x++
 			if (placedThisRound.get(index).getCol() < map.getWidth() && !(map.getTiles()[placedThisRound.get(index).getCol()+ 1][placedThisRound.get(index).getRow()].isSolid()) && !(map.getTiles()[placedThisRound.get(index).getCol() + 1][placedThisRound.get(index).getRow()] instanceof Gas))
 			{
 				g = new Gas(placedThisRound.get(index).getCol() + 1, placedThisRound.get(index).getRow(), tileSize, tileset.getImage("GasOne"), this, 0);
 				map.addTile(placedThisRound.get(index).getCol() + 1, placedThisRound.get(index).getRow(), g);
 				placedThisRound.add(g);
 				numSquaresToFill--;
-			}//x+y
+			}//y++
 			if (placedThisRound.get(index).getRow() < map.getHeight() && !(map.getTiles()[placedThisRound.get(index).getCol()][placedThisRound.get(index).getRow() + 1].isSolid()) && !(map.getTiles()[placedThisRound.get(index).getCol()][placedThisRound.get(index).getRow() + 1] instanceof Gas))
 			{
 				g = new Gas(placedThisRound.get(index).getCol(), placedThisRound.get(index).getRow() + 1, tileSize, tileset.getImage("GasOne"), this, 0);
 				map.addTile(placedThisRound.get(index).getCol(), placedThisRound.get(index).getRow() + 1, g);
 				placedThisRound.add(g);
 				numSquaresToFill--;
-			}//+x+y
+			}//x++ && y++
 			if (placedThisRound.get(index).getRow() < map.getHeight() && placedThisRound.get(index).getCol() < map.getWidth()&& !(map.getTiles()[placedThisRound.get(index).getCol() + 1][placedThisRound.get(index).getRow() + 1].isSolid()) && !(map.getTiles()[placedThisRound.get(index).getCol() + 1][placedThisRound.get(index).getRow() + 1] instanceof Gas))
 			{
 				g = new Gas(placedThisRound.get(index).getCol() + 1, placedThisRound.get(index).getRow() + 1, tileSize, tileset.getImage("GasOne"), this, 0);
 				map.addTile(placedThisRound.get(index).getCol() + 1, placedThisRound.get(index).getCol() + 1, g);
 				placedThisRound.add(g);
 				numSquaresToFill--;
-			}//-x+y
+			}//x-- && y++
 			if (placedThisRound.get(index).getRow() < map.getHeight() && placedThisRound.get(index).getCol() > 0 && !(map.getTiles()[placedThisRound.get(index).getCol() - 1][placedThisRound.get(index).getRow() + 1].isSolid()) && !(map.getTiles()[placedThisRound.get(index).getCol() - 1][placedThisRound.get(index).getRow() + 1] instanceof Gas))
 			{
 				g = new Gas(placedThisRound.get(index).getCol() - 1, placedThisRound.get(index).getRow() + 1, tileSize, tileset.getImage("GasOne"), this, 0);
@@ -347,7 +350,6 @@ public class Level {
 				placedThisRound.add(g);
 				numSquaresToFill--;
 			}
-			//Done
 			if (!(placedThisRound.size() == 1))
 			{
 				index++;
