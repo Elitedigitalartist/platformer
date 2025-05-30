@@ -339,7 +339,7 @@ public class Level {
 			if (placedThisRound.get(index).getRow() < map.getHeight() && placedThisRound.get(index).getCol() < map.getWidth()&& !(map.getTiles()[placedThisRound.get(index).getCol() + 1][placedThisRound.get(index).getRow() + 1].isSolid()) && !(map.getTiles()[placedThisRound.get(index).getCol() + 1][placedThisRound.get(index).getRow() + 1] instanceof Gas))
 			{
 				g = new Gas(placedThisRound.get(index).getCol() + 1, placedThisRound.get(index).getRow() + 1, tileSize, tileset.getImage("GasOne"), this, 0);
-				map.addTile(placedThisRound.get(index).getCol() + 1, placedThisRound.get(index).getCol() + 1, g);
+				map.addTile(placedThisRound.get(index).getCol() + 1, placedThisRound.get(index).getRow() + 1, g);
 				placedThisRound.add(g);
 				numSquaresToFill--;
 			}//x-- && y++
