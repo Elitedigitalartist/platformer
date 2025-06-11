@@ -22,7 +22,7 @@ public class Camera {
 	
 	private float setValue = 0.5f;
 	
-	private float offsetX = 450;
+	private float offsetX = 100;
 	private float offsetY = 100; //to rather keep the camera down
 	
 	private int size = 10; //used to draw the oval

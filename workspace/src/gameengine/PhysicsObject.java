@@ -3,7 +3,9 @@ package gameengine;
 import gameengine.hitbox.RectHitbox;
 import gameengine.maths.Vector2D;
 import gamelogic.level.Level;
+import gamelogic.tiles.SolidTile;
 import gamelogic.tiles.Tile;
+import java.time.Clock;
 
 public class PhysicsObject extends GameObject{
 	//Used for collision
@@ -32,7 +34,10 @@ public class PhysicsObject extends GameObject{
 
 	@Override
 	public void update(float tslf) {
-		movementVector.y += (Level.GRAVITY * Level.GRAVITY) * tslf;
+	
+		//movementVector.y += (Level.GRAVITY * Level.GRAVITY) * tslf;
+		
+	
 
 		updateCollisionMatrix(tslf); // checking collision based on the new position -> current movement Vector
 
@@ -57,6 +62,7 @@ public class PhysicsObject extends GameObject{
 		if(rig != null) {
 			position.x = rig.getHitbox().getX() - (hitbox.getOffsetX() + hitbox.getWidth());
 			movementVector.x = 0;
+			
 		}
 
 		position.x += movementVector.x * tslf;
@@ -170,6 +176,9 @@ public class PhysicsObject extends GameObject{
 	
 	public float getMovementX() {
 		return movementVector.x;
+	}
+	public void setMovementX(float m) {
+		m = movementVector.x;
 	}
 	
 	public float getMovementY() {

@@ -176,6 +176,8 @@ public class Level {
 				onPlayerDeath();
 			if (player.getCollisionMatrix()[PhysicsObject.RIG] instanceof Spikes)
 				onPlayerDeath();
+			//if (player.getCollisionMatrix()[PhysicsObject.RIG] instanceof SolidTile)
+				
 
 			for (int i = 0; i < flowers.size(); i++) {
 				if (flowers.get(i).getHitbox().isIntersecting(player.getHitbox())) {
@@ -197,6 +199,8 @@ public class Level {
 				if(w.getHitbox().isIntersecting(player.getHitbox()))
 				{
 					//System.out.print("touching water");
+					player.walkSpeed += 0.025;
+					break;
 				}
 			}
 
@@ -205,6 +209,15 @@ public class Level {
 				enemies[i].update(tslf);
 				if (player.getHitbox().isIntersecting(enemies[i].getHitbox())) {
 					onPlayerDeath();
+				}
+				for (Gas g: gases)
+				{
+					if(g.getHitbox().isIntersecting(enemies[i].getHitbox()))
+					{
+						//System.out.print("touching water");
+						enemies[i].setMovementX(-1 * enemies[i].getMovementX());
+						break;
+					}
 				}
 			}
 

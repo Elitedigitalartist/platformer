@@ -1,11 +1,9 @@
 package gamelogic;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
-
 import gameengine.GameBase;
 import gameengine.graphics.MyWindow;
 import gameengine.input.KeyboardInputManager;
@@ -26,7 +24,6 @@ public class Main extends GameBase implements PlayerDieListener, PlayerWinListen
 	private Level currentLevel;
 	private int currentLevelIndex;
 	private boolean active;
-	
 	private int numberOfTries;
 	private long levelStartTime;
 	private long levelFinishTime;

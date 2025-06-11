@@ -19,6 +19,21 @@ class PlayerInput {
 	 */
 	public static boolean isJumpKeyDown() {
 		return KeyboardInputManager.isKeyDown(KeyEvent.VK_SPACE);
+		//KeyboardInputManager.isKeyUp(KeyEvent.VK_SPACE);
+	}
+	public static boolean isTwoKeyDown() {
+		return KeyboardInputManager.isKeyDown(KeyEvent.VK_2);
+	}public static boolean isOneKeyDown() {
+		return KeyboardInputManager.isKeyDown(KeyEvent.VK_1);
+	}
+	public static boolean isThreeKeyDown() {
+		return KeyboardInputManager.isKeyDown(KeyEvent.VK_3);
+	}
+	public static boolean isUpKeyDown() {
+		return KeyboardInputManager.isKeyDown(KeyEvent.VK_UP);
+	}
+	public static boolean isDownKeyDown() {
+		return KeyboardInputManager.isKeyDown(KeyEvent.VK_DOWN);
 	}
 	/**
 	 * 
