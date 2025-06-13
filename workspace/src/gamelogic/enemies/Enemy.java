@@ -7,10 +7,11 @@ import gameengine.PhysicsObject;
 import gameengine.hitbox.RectHitbox;
 import gamelogic.GameResources;
 import gamelogic.level.Level;
+import gamelogic.tiles.SolidTile;
 
 public class Enemy extends PhysicsObject{
 
-	private float walkSpeed = 80;
+	public float walkSpeed = 80;
 	private BufferedImage image;
 	
 	public Enemy(float x, float y, Level level) {
@@ -18,6 +19,10 @@ public class Enemy extends PhysicsObject{
 		movementVector.x = walkSpeed;
 		this.hitbox = new RectHitbox(this, 10, 10, width - 10, height - 10);
 		this.image = GameResources.enemy;
+	}
+	public void setMovementX(float m)
+	{
+		movementVector.x = m;
 	}
 	
 	@Override

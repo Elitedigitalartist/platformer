@@ -178,7 +178,7 @@ public class PhysicsObject extends GameObject{
 		return movementVector.x;
 	}
 	public void setMovementX(float m) {
-		m = movementVector.x;
+		movementVector.x = m;
 	}
 	
 	public float getMovementY() {
